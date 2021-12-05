@@ -4,18 +4,20 @@ input = f.read()
 import hashlib
 
 def MD5HashOf(string):
-    return str(hashlib.md5(string.encode()))
+    return str(hashlib.md5(string.encode()).hexdigest())
 
-def StartWith5Zeroes(string):
-    if len(string) > 5 and string[0:5] == "00000":
+def StartWithXZeroes(string, xZeroes):
+    zeroes = "0"*xZeroes
+    if len(string) > xZeroes and string[0:xZeroes] == zeroes:
         return True
     return False
 
-def findValidCode(letters):
+def findValidCode(letters, xZeroes):
     number = 0
     while True:
         number += 1
-        if StartWith5Zeroes(MD5HashOf(letters+str(number))):
+        if StartWithXZeroes(MD5HashOf(letters+str(number)), xZeroes):
             return number
 
-print(findValidCode(input))
+print(findValidCode(input, 5))
+print(findValidCode(input, 6))
